@@ -1,12 +1,12 @@
 // Supabase configuration
-const SUPABASE_URL = 'YOUR_SUPABASE_URL';
-const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
+const SUPABASE_URL = 'https://wdfddsfbssmnaymoutxl.supabase.co';
+const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndkZmRkc2Zic3NtbmF5bW91dHhsIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDAyMzQ2MDgsImV4cCI6MjA1NTgxMDYwOH0.f-HRHm01MtkFzsoRQyrnSDLqVnz6NfZkIYIUaNajL30';
 
 // Initialize Supabase
 const supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
 
 // Gemini AI API key
-const API_KEY = 'YOUR_GEMINI_API_KEY';
+const API_KEY = 'AIzaSyDqxamSkFqymrxua0Fh3YhrD9jJVDQUSA0';
 
 // Function to upload image to Supabase Storage
 async function uploadImage() {
