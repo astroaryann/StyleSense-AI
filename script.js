@@ -1,5 +1,5 @@
 // Gemini API key
-const API_KEY = 'AIzaSyBV6fhDapQO-XB67EID6jmGuWrreMJbN-k'; // Replace with your Gemini API key
+const API_KEY = 'AIzaSyDqxamSkFqymrxua0Fh3YhrD9jJVDQUSA0'; // Replace with your Gemini API key
 
 // Function to upload image and analyze
 async function uploadImage() {
@@ -11,6 +11,8 @@ async function uploadImage() {
         return;
     }
 
+    console.log('File selected:', image); // Debugging
+
     // Show loading spinner
     document.getElementById('loading').style.display = 'block';
 
@@ -19,6 +21,7 @@ async function uploadImage() {
         const reader = new FileReader();
         reader.onload = async (event) => {
             const base64Image = event.target.result.split(',')[1]; // Remove the data URL prefix
+            console.log('Base64 image:', base64Image); // Debugging
 
             // Step 2: Send the base64 image to the Gemini API
             const response = await fetch('https://api.gemini.ai/v1/analyze-image', {
