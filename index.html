@@ -28,6 +28,12 @@
             <button class="analyze-button" onclick="uploadImage()">Analyze</button>
         </div>
 
+        <!-- Pop-up Message -->
+        <div id="popup" class="popup">
+            <i class="fas fa-check-circle"></i>
+            <span>Image uploaded successfully!</span>
+        </div>
+
         <!-- Result Section -->
         <div id="result" class="result-card">
             <img id="uploadedImage" src="#" alt="Uploaded Image" class="uploaded-image">
@@ -52,8 +58,6 @@
         </footer>
     </div>
 
-    <!-- Add Supabase SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </body>
 </html>
