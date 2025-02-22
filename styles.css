@@ -86,6 +86,24 @@ h1 {
     background: #218838;
 }
 
+/* Pop-up Message */
+.popup {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    background: #28a745;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 10px;
+    display: none; /* Hidden by default */
+    align-items: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.popup i {
+    margin-right: 0.5rem;
+}
+
 /* Result Section */
 .result-card {
     background: white;
@@ -162,4 +180,5 @@ footer {
 }
 
 footer strong {
-    color: #007
+    color: #007bff;
+}
