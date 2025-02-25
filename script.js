@@ -1,84 +1,42 @@
-// Gemini API key
-const API_KEY = 'AIzaSyDqxamSkFqymrxua0Fh3YhrD9jJVDQUSA0'; // Replace with your Gemini API key
-
-// Function to upload image and analyze
-async function uploadImage() {
-    const fileInput = document.getElementById('imageUpload');
-    const image = fileInput.files[0];
-
-    if (!image) {
-        alert('Please upload an image first.');
+document.getElementById('uploadButton').addEventListener('click', async () => {
+    const photoInput = document.getElementById('photoInput');
+    if (photoInput.files.length === 0) {
+        alert('Please select a photo to upload.');
         return;
     }
 
-    console.log('File selected:', image); // Debugging
+    const file = photoInput.files[0];
+    const reader = new FileReader();
 
-    // Show loading spinner
-    document.getElementById('loading').style.display = 'block';
+    reader.onload = async (event) => {
+        const base64Image = event.target.result;
 
-    try {
-        // Step 1: Convert the image to a base64 string
-        const reader = new FileReader();
-        reader.onload = async (event) => {
-            const base64Image = event.target.result.split(',')[1]; // Remove the data URL prefix
-            console.log('Base64 image:', base64Image); // Debugging
+        // Google GenAI API endpoint and API key
+        const genaiApiEndpoint = 'https://api.genai.cloud/v1alpha/models/gemini-2.0-flash:generateContent';
+        const genaiApiKey = 'AIzaSyCD3MarmhXZhQkqB89g47OCU7snV62KGWc';
 
-            // Step 2: Send the base64 image to the Gemini API
-            const response = await fetch('https://api.gemini.ai/v1/analyze-image', {
+        try {
+            const response = await fetch(genaiApiEndpoint, {
                 method: 'POST',
                 headers: {
-                    'Authorization': `Bearer ${API_KEY}`,
-                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${genaiApiKey}`,
+                    'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ image: base64Image }),
+                body: JSON.stringify({
+                    contents: `Analyze and provide recommendations based on the uploaded photo: ${base64Image}`
+                })
             });
 
-            const geminiData = await response.json();
-            console.log('Gemini API response:', geminiData); // Debugging
+            if (!response.ok) {
+                throw new Error('Failed to analyze photo');
+            }
 
-            // Step 3: Display the result
-            displayResult(base64Image, geminiData.suggestion);
+            const result = await response.json();
+            document.getElementById('result').innerText = `AI's recommendation: ${result.text}`;
+        } catch (error) {
+            document.getElementById('result').innerText = `Error: ${error.message}`;
+        }
+    };
 
-            // Show pop-up message
-            showPopup('Image uploaded successfully!');
-        };
-        reader.readAsDataURL(image); // Read the image as a data URL
-    } catch (error) {
-        console.error('Error:', error); // Debugging
-        alert('An error occurred. Please try again.');
-    } finally {
-        // Hide loading spinner
-        document.getElementById('loading').style.display = 'none';
-    }
-}
-
-// Function to display the result
-function displayResult(imageUrl, suggestion) {
-    const resultCard = document.getElementById('result');
-    const uploadedImage = document.getElementById('uploadedImage');
-    const suggestionText = document.getElementById('suggestion');
-
-    // Display the uploaded image
-    uploadedImage.src = `data:image/png;base64,${imageUrl}`;
-    uploadedImage.style.display = 'block';
-
-    // Display the AI-generated suggestion with a personalized message
-    suggestionText.innerHTML = `
-        <strong>Aryan's Suggestion:</strong> ${suggestion || 'No suggestion available.'}
-    `;
-
-    // Show the result card
-    resultCard.style.display = 'block';
-}
-
-// Function to show a pop-up message
-function showPopup(message) {
-    const popup = document.getElementById('popup');
-    popup.querySelector('span').textContent = message;
-    popup.style.display = 'flex';
-
-    // Hide the pop-up after 3 seconds
-    setTimeout(() => {
-        popup.style.display = 'none';
-    }, 3000);
-}
+    reader.readAsDataURL(file);
+});
